@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nicolas Games IA</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#111,#1a1a1a,#4d0000);
+color:white;
+min-height:100vh;
+}
+
+header{
+background:#b30000;
+padding:25px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.4);
+}
+
+header h1{
+font-size:38px;
+}
+
+header p{
+margin-top:8px;
+color:#ddd;
+}
+
+header a{
+display:inline-block;
+margin-top:15px;
+padding:12px 20px;
+background:white;
+color:#b30000;
+text-decoration:none;
+font-weight:bold;
+border-radius:10px;
+}
+
+.container{
+width:90%;
+max-width:1300px;
+margin:auto;
+padding:40px 0;
+}
+
+.top-bar{
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+margin-bottom:30px;
+}
+
+input{
+flex:1;
+min-width:250px;
+padding:14px;
+border:none;
+border-radius:10px;
+font-size:16px;
+}
+
+button{
+padding:14px 22px;
+border:none;
+border-radius:10px;
+background:#ff1a1a;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#ff4d4d;
+transform:scale(1.05);
+}
+
+.games{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+
+.card{
+background:#1f1f1f;
+padding:20px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.card h3{
+color:#ff4444;
+margin-bottom:10px;
+}
+
+.card a{
+display:inline-block;
+text-decoration:none;
+background:white;
+color:#111;
+padding:10px 15px;
+border-radius:8px;
+font-weight:bold;
+margin-top:10px;
+}
+
+footer{
+text-align:center;
+padding:25px;
+color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎮 Nicolas Games IA</h1>
+<p>Portal oficial de jogos criados por IA</p>
+
+<a href="https://www.nicolasgamesia.com.br" target="_blank">
+🌐 www.nicolasgamesia.com.br
+</a>
+</header>
+
+<div class="container">
+
+<div class="top-bar">
+<input type="text" id="nome" placeholder="Nome do jogo">
+<input type="text" id="link" placeholder="Link do jogo">
+<button onclick="adicionarJogo()">Adicionar</button>
+</div>
+
+<div class="games" id="listaJogos"></div>
+
+</div>
+
+<footer>
+Nicolas Games IA © 2026
+</footer>
+
+<script>
+let jogos = JSON.parse(localStorage.getItem("jogosnicolas")) || [];
+
+function salvar(){
+localStorage.setItem("jogosnicolas", JSON.stringify(jogos));
+}
+
+function renderizar(){
+let area = document.getElementById("listaJogos");
+area.innerHTML = "";
+
+jogos.forEach((jogo,i)=>{
+area.innerHTML += `
+<div class="card">
+<h3>${jogo.nome}</h3>
+<a href="${jogo.link}" target="_blank">▶ Jogar</a>
+<br><br>
+<button onclick="remover(${i})">Excluir</button>
+</div>
+`;
+});
+}
+
+function adicionarJogo(){
+let nome = document.getElementById("nome").value;
+let link = document.getElementById("link").value;
+
+if(nome=="" || link==""){
+alert("Preencha tudo");
+return;
+}
+
+jogos.push({nome,link});
+salvar();
+renderizar();
+
+document.getElementById("nome").value="";
+document.getElementById("link").value="";
+}
+
+function remover(i){
+jogos.splice(i,1);
+salvar();
+renderizar();
+}
+
+renderizar();
+</script>
+
+</body>
+</html>
